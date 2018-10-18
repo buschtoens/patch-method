@@ -1,27 +1,4 @@
-/**
- * Gets the types of the parameters of function `T` as an array.
- */
-type Parameters<T> = T extends (...args: infer T) => any ? T : never
-
-/**
- * A constructor function / class basically.
- */
-type Constructor<T> = new (...args: any[]) => T
-
-/**
- * Gets the instance type of a constructor.
- */
-type ConstructorReturnType<T extends Constructor<any>> = T extends Constructor<infer U> ? U : never
-
-/**
- * All values on the object `Obj`.
- */
-type Values<Obj> = Obj[keyof Obj]
-
-/**
- * All keys of `Obj` that have a value of type `T`.
- */
-type PropertiesOfType<Obj, T> = Values<{ [K in keyof Obj]: Obj[K] extends T ? K : never }>
+import { Constructor, PropertiesOfType } from './type-helpers'
 
 /**
  * Allows you to easily hook into / extend a method on a class.
@@ -45,7 +22,7 @@ type PropertiesOfType<Obj, T> = Values<{ [K in keyof Obj]: Obj[K] extends T ? K 
  */
 export default function patchMethod<
   Class extends Constructor<any>,
-  Instance extends ConstructorReturnType<Class>,
+  Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
   SuperMethod extends Extract<Instance[K], Function>
 >(
@@ -90,7 +67,7 @@ export default function patchMethod<
  */
 export function beforeMethod<
   Class extends Constructor<any>,
-  Instance extends ConstructorReturnType<Class>,
+  Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
   SuperMethod extends Instance[K]
 >(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
@@ -121,7 +98,7 @@ export function beforeMethod<
  */
 export function afterMethod<
   Class extends Constructor<any>,
-  Instance extends ConstructorReturnType<Class>,
+  Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
   SuperMethod extends Instance[K]
 >(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
