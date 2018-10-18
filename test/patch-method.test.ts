@@ -39,7 +39,6 @@ describe('beforeMethod', () => {
   })
 })
 
-
 describe('afterMethod', () => {
   it('works', () => {
     class Foo {

@@ -9,7 +9,7 @@ type Parameters<T> = T extends (...args: infer T) => any ? T : never
 type Constructor<T> = new (...args: any[]) => T
 
 /**
- * Gets the underlying prototype of a constructor / class.
+ * Gets the instance type of a constructor.
  */
 type ConstructorReturnType<T extends Constructor<any>> = T extends Constructor<infer U> ? U : never
 
@@ -45,14 +45,14 @@ type PropertiesOfType<Obj, T> = Values<{ [K in keyof Obj]: Obj[K] extends T ? K 
  */
 export default function patchMethod<
   Class extends Constructor<any>,
-  Prototype extends ConstructorReturnType<Class>,
-  K extends PropertiesOfType<Prototype, Function>,
-  SuperMethod extends Extract<Prototype[K], Function>
+  Instance extends ConstructorReturnType<Class>,
+  K extends PropertiesOfType<Instance, Function>,
+  SuperMethod extends Extract<Instance[K], Function>
 >(
   klass: Class,
   methodName: K,
   fn: (
-    this: Class,
+    this: Instance,
     superMethod: SuperMethod,
     ...args: Parameters<SuperMethod>
   ) => ReturnType<SuperMethod>
@@ -60,7 +60,7 @@ export default function patchMethod<
   const superMethod: SuperMethod = klass.prototype[methodName]
 
   klass.prototype[methodName] = function(
-    this: Class,
+    this: Instance,
     ...args: Parameters<SuperMethod>
   ): ReturnType<SuperMethod> {
     return fn.call(this, superMethod.bind(this), ...args)
@@ -90,10 +90,10 @@ export default function patchMethod<
  */
 export function beforeMethod<
   Class extends Constructor<any>,
-  Prototype extends ConstructorReturnType<Class>,
-  K extends PropertiesOfType<Prototype, Function>,
-  SuperMethod extends Prototype[K]
->(klass: Class, methodName: K, fn: (this: Class, ...args: Parameters<SuperMethod>) => any) {
+  Instance extends ConstructorReturnType<Class>,
+  K extends PropertiesOfType<Instance, Function>,
+  SuperMethod extends Instance[K]
+>(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
   return patchMethod(klass, methodName, function(superMethod, ...args) {
     fn.call(this, ...args)
     return superMethod(...args)
@@ -121,10 +121,10 @@ export function beforeMethod<
  */
 export function afterMethod<
   Class extends Constructor<any>,
-  Prototype extends ConstructorReturnType<Class>,
-  K extends PropertiesOfType<Prototype, Function>,
-  SuperMethod extends Prototype[K]
->(klass: Class, methodName: K, fn: (this: Class, ...args: Parameters<SuperMethod>) => any) {
+  Instance extends ConstructorReturnType<Class>,
+  K extends PropertiesOfType<Instance, Function>,
+  SuperMethod extends Instance[K]
+>(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
   return patchMethod(klass, methodName, function(superMethod, ...args) {
     const returnValue = superMethod(...args)
     fn.call(this, ...args)
