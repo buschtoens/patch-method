@@ -1,5 +1,12 @@
 # patch-method
 
+[![Build Status](https://travis-ci.org/buschtoens/patch-method.svg)](https://travis-ci.org/buschtoens/patch-method)
+[![npm version](https://badge.fury.io/js/patch-method.svg)](http://badge.fury.io/js/patch-method)
+[![Download Total](https://img.shields.io/npm/dt/patch-method.svg)](http://badge.fury.io/js/patch-method)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![dependencies](https://img.shields.io/david/buschtoens/patch-method.svg)](https://david-dm.org/buschtoens/patch-method)
+[![devDependencies](https://img.shields.io/david/dev/buschtoens/patch-method.svg)](https://david-dm.org/buschtoens/patch-method)
+
 This package allows you to patch class methods in a fully type-safe way. This is
 especially useful to create decorators that "mixin" methods.
 
