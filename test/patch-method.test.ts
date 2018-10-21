@@ -58,6 +58,32 @@ describe('patchMethod', () => {
 
     expect(derived.bar('test')).toEqual('testcalled')
   })
+
+  it('accepts a fallback method', () => {
+    class Foo {
+      // @ts-ignore
+      bar: (value: string) => string
+    }
+
+    patchMethod(
+      Foo,
+      'bar',
+      function(superMethod, value) {
+        expect(this).toBeInstanceOf(Foo)
+        expect(value).toEqual('test')
+        return superMethod(value) + 'called'
+      },
+      function(value) {
+        expect(this).toBeInstanceOf(Foo)
+        expect(value).toEqual('test')
+        return 'fallback' + value
+      }
+    )
+
+    const foo = new Foo()
+
+    expect(foo.bar('test')).toEqual('fallbacktestcalled')
+  })
 })
 
 describe('beforeMethod', () => {
