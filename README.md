@@ -10,6 +10,8 @@
 This package allows you to patch class methods in a fully type-safe way. This is
 especially useful to create decorators that "mixin" methods.
 
+## Usage
+
 ### `patchMethod`
 
 Allows you to override any method on a given class. Enforces that the passed
@@ -94,3 +96,10 @@ foo.bar(10)
 // => 'Foo#bar was called with 10.'
 // => 10
 ```
+
+## Acknowledgements
+
+Many thanks to [@dfreeman](https://github.com/dfreeman) for his support making
+this util 100 % type-safe, and to the
+[`#e-typescript` channel](https://discordapp.com/channels/480462759797063690/484421406659182603)
+on the [Ember Community Discord ![Discord](https://img.shields.io/discord/480462759797063690.svg?logo=discord)](https://discord.gg/zT3asNS)
