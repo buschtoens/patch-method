@@ -2,7 +2,7 @@ language: node_js
 branches:
   only:
     - master
-    - /^greenkeeper/.*$/
+    - /^dependabot/.*$/
 cache:
   yarn: true
   directories:
