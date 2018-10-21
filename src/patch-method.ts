@@ -32,9 +32,10 @@ export default function patchMethod<
     this: Instance,
     superMethod: SuperMethod,
     ...args: Parameters<SuperMethod>
-  ) => ReturnType<SuperMethod>
+  ) => ReturnType<SuperMethod>,
+  fallback?: (this: Instance, ...args: Parameters<SuperMethod>) => ReturnType<SuperMethod>
 ): Class {
-  const superMethod: SuperMethod = klass.prototype[methodName]
+  const superMethod: SuperMethod = klass.prototype[methodName] || fallback
 
   klass.prototype[methodName] = function(
     this: Instance,
@@ -70,11 +71,21 @@ export function beforeMethod<
   Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
   SuperMethod extends Instance[K]
->(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
-  return patchMethod(klass, methodName, function(superMethod, ...args) {
-    fn.call(this, ...args)
-    return superMethod(...args)
-  })
+>(
+  klass: Class,
+  methodName: K,
+  fn: (this: Instance, ...args: Parameters<SuperMethod>) => any,
+  fallback?: (this: Instance, ...args: Parameters<SuperMethod>) => ReturnType<SuperMethod>
+) {
+  return patchMethod(
+    klass,
+    methodName,
+    function(superMethod, ...args) {
+      fn.call(this, ...args)
+      return superMethod(...args)
+    },
+    fallback
+  )
 }
 
 /**
@@ -109,11 +120,17 @@ export function afterMethod<
     this: Instance,
     returnValue: ReturnType<SuperMethod>,
     ...args: Parameters<SuperMethod>
-  ) => any
+  ) => any,
+  fallback?: (this: Instance, ...args: Parameters<SuperMethod>) => ReturnType<SuperMethod>
 ) {
-  return patchMethod(klass, methodName, function(superMethod, ...args) {
-    const returnValue = superMethod(...args)
-    fn.call(this, returnValue, ...args)
-    return returnValue
-  })
+  return patchMethod(
+    klass,
+    methodName,
+    function(superMethod, ...args) {
+      const returnValue = superMethod(...args)
+      fn.call(this, returnValue, ...args)
+      return returnValue
+    },
+    fallback
+  )
 }
