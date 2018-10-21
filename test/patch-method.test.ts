@@ -47,8 +47,9 @@ describe('afterMethod', () => {
       }
     }
 
-    afterMethod(Foo, 'bar', function(value) {
+    afterMethod(Foo, 'bar', function(returnValue, value) {
       expect(this).toBeInstanceOf(Foo)
+      expect(returnValue).toEqual('test')
       expect(value).toEqual('test')
     })
 

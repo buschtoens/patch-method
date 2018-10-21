@@ -78,7 +78,8 @@ export function beforeMethod<
 }
 
 /**
- * Executes the hook after the super method has been executed.
+ * Executes the hook after the super method has been executed and passes the
+ * return value to the hook.
  *
  * ```ts
  * class Foo {
@@ -87,7 +88,7 @@ export function beforeMethod<
  *   }
  * }
  *
- * afterMethod(Foo, 'bar', function(hello) {
+ * afterMethod(Foo, 'bar', function(returnValue, hello) {
  *   console.log('Do something here.');
  * });
  * ```
@@ -101,10 +102,18 @@ export function afterMethod<
   Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
   SuperMethod extends Instance[K]
->(klass: Class, methodName: K, fn: (this: Instance, ...args: Parameters<SuperMethod>) => any) {
+>(
+  klass: Class,
+  methodName: K,
+  fn: (
+    this: Instance,
+    returnValue: ReturnType<SuperMethod>,
+    ...args: Parameters<SuperMethod>
+  ) => any
+) {
   return patchMethod(klass, methodName, function(superMethod, ...args) {
     const returnValue = superMethod(...args)
-    fn.call(this, ...args)
+    fn.call(this, returnValue, ...args)
     return returnValue
   })
 }
