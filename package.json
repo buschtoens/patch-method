@@ -1,13 +1,15 @@
 {
   "name": "patch-method",
   "version": "0.0.4",
-  "description": "Patch / extend / hook into class methods in a type-safe way",
+  "description": "Patch / extend / wrap / hook into class methods in a type-safe way",
   "keywords": [
     "typescript",
     "method",
     "patch",
     "hook",
     "extend",
+    "wrap",
+    "mixin",
     "class",
     "prototype"
   ],
