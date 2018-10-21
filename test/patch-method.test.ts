@@ -11,12 +11,52 @@ describe('patchMethod', () => {
     patchMethod(Foo, 'bar', function(superMethod, value) {
       expect(this).toBeInstanceOf(Foo)
       expect(value).toEqual('test')
-      return superMethod(value)
+      return superMethod(value) + 'called'
     })
 
     const foo = new Foo()
 
-    expect(foo.bar('test')).toEqual('test')
+    expect(foo.bar('test')).toEqual('testcalled')
+  })
+
+  it('works with derived classes', () => {
+    class Base {
+      bar(value: string) {
+        return value
+      }
+    }
+
+    class Derived extends Base {}
+
+    patchMethod(Derived, 'bar', function(superMethod, value) {
+      expect(this).toBeInstanceOf(Derived)
+      expect(value).toEqual('test')
+      return superMethod(value) + 'called'
+    })
+
+    const derived = new Derived()
+
+    expect(derived.bar('test')).toEqual('testcalled')
+  })
+
+  it('works on base classes of derived classes', () => {
+    class Base {
+      bar(value: string) {
+        return value
+      }
+    }
+
+    class Derived extends Base {}
+
+    patchMethod(Base, 'bar', function(superMethod, value) {
+      expect(this).toBeInstanceOf(Derived)
+      expect(value).toEqual('test')
+      return superMethod(value) + 'called'
+    })
+
+    const derived = new Derived()
+
+    expect(derived.bar('test')).toEqual('testcalled')
   })
 })
 
