@@ -44,6 +44,10 @@ foo.bar(10)
 
 ### `beforeMethod`
 
+Register a hook to be executed before the original method is run.
+Gets passed the original arguments the method was called with.
+The return value of the hook is ignored.
+
 ```ts
 import { beforeMethod } from 'patch-method';
 
@@ -65,6 +69,11 @@ foo.bar(10)
 ```
 
 ### `afterMethod`
+
+Register a hook to be executed right after the original method is run.
+Gets passed the original arguments the method was called with.
+Also gets passed the return value of the method as the first parameter.
+The return value of the hook is ignored.
 
 ```ts
 import { afterMethod } from 'patch-method';
