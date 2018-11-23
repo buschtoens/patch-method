@@ -21,6 +21,7 @@
   ],
   "author": "Jan Buschtöns <jan@buschtoens.me> (https://jan.buschtoens.me)",
   "repository": "https://github.com/buschtoens/patch-method",
+  "homepage": "https://buschtoens.github.io/patch-method/",
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
