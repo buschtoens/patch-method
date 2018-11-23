@@ -59,6 +59,38 @@ describe('patchMethod', () => {
     expect(derived.bar('test')).toEqual('testcalled')
   })
 
+  it('works with derived classes that override', () => {
+    class Base {
+      bar(value: string) {
+        return `base -> ${value}`
+      }
+    }
+
+    class Derived extends Base {
+      bar(value: string) {
+        return `derived -> ${super.bar(value)}`
+      }
+    }
+
+    patchMethod(Base, 'bar', function(superMethod, value) {
+      expect(this).toBeInstanceOf(Derived)
+      expect(value).toEqual('patched:derived -> test')
+      return superMethod(`patched:base -> ${value}`)
+    })
+
+    patchMethod(Derived, 'bar', function(superMethod, value) {
+      expect(this).toBeInstanceOf(Derived)
+      expect(value).toEqual('test')
+      return superMethod(`patched:derived -> ${value}`)
+    })
+
+    const derived = new Derived()
+
+    expect(derived.bar('test')).toEqual(
+      'derived -> base -> patched:base -> patched:derived -> test'
+    )
+  })
+
   it('accepts a fallback method', () => {
     class Foo {
       // @ts-ignore
