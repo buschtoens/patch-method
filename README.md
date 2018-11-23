@@ -15,7 +15,7 @@ especially useful to create decorators that "mixin" methods.
 ### `patchMethod`
 
 Allows you to override any method on a given class. Enforces that the passed
-`methodName` actually *is* a method, and enforces that your hook `fn` has the
+`methodName` actually _is_ a method, and enforces that your hook `fn` has the
 same type signature as the original method.
 
 The first argument to `fn` is a `superMethod` callback that is bound to the
@@ -23,11 +23,11 @@ instance of the class. This way you can optionally call the original method
 implementation and also alter the arguments.
 
 ```ts
-import patchMethod from 'patch-method';
+import patchMethod from 'patch-method'
 
 class Foo {
   bar(value: number) {
-    console.log(`Received: ${value}`);
+    console.log(`Received: ${value}`)
     return number
   }
 }
@@ -37,7 +37,7 @@ patchMethod(Foo, 'bar', function(superMethod, value) {
   return superMethod(value + 1)
 })
 
-const foo = new Foo
+const foo = new Foo()
 foo.bar(10)
 // => 'Foo#bar was called with 10.'
 // => 'Received: 11'
@@ -51,7 +51,7 @@ Gets passed the original arguments the method was called with.
 The return value of the hook is ignored.
 
 ```ts
-import { beforeMethod } from 'patch-method';
+import { beforeMethod } from 'patch-method'
 
 class Foo {
   bar(value: number) {
@@ -63,7 +63,7 @@ beforeMethod(Foo, 'bar', function(value) {
   console.log(`${this.constructor.name}#bar was called with ${value}.`)
 })
 
-const foo = new Foo
+const foo = new Foo()
 foo.bar(10)
 // => 'Foo#bar was called with 10.'
 // => 'Received: 10'
@@ -78,7 +78,7 @@ Also gets passed the return value of the method as the first parameter.
 The return value of the hook is ignored.
 
 ```ts
-import { afterMethod } from 'patch-method';
+import { afterMethod } from 'patch-method'
 
 class Foo {
   bar(value: number) {
@@ -90,11 +90,49 @@ afterMethod(Foo, 'bar', function(returnValue, value) {
   console.log(`${this.constructor.name}#bar was called with ${value}.`)
 })
 
-const foo = new Foo
+const foo = new Foo()
 foo.bar(10)
 // => 'Received: 10'
 // => 'Foo#bar was called with 10.'
 // => 10
+```
+
+## Fallback function
+
+Even though this library guarantees that you can only patch methods that the
+TypeScript compiler knows about, it can't actually guarantee that the method
+will exist at run time. For instance, you could be patching an incorrectly typed
+class, or something might have nuked the method at run time.
+
+If you encounter this problem, you can pass a fourth parameter to the utility
+functions offered by this libarary. This optional `fallback` parameter accepts
+a function that has the same signature as the original super method it would
+substitute. If the original super method is missing at run time, the `fallback`
+function will be called in its place with `this` bound to the class instance.
+
+```ts
+class Foo {
+  bar!: (value: string) => string
+}
+
+patchMethod(
+  Foo,
+  'bar',
+  function(superMethod, value) {
+    expect(this).toBeInstanceOf(Foo)
+    expect(value).toEqual('test')
+    return superMethod(value) + 'called'
+  },
+  function(value) {
+    expect(this).toBeInstanceOf(Foo)
+    expect(value).toEqual('test')
+    return 'fallback' + value
+  }
+)
+
+const foo = new Foo()
+
+expect(foo.bar('test')).toEqual('fallbacktestcalled')
 ```
 
 ## Acknowledgements
