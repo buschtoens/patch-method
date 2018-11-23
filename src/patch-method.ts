@@ -19,6 +19,7 @@ import { Constructor, PropertiesOfType } from './type-helpers'
  * @param klass The class to hook into.
  * @param methodName The name of the method on the class to hook into.
  * @param fn The hook to execute.
+ * @param fallback A fallback function to be called in case the original super method does not exist.
  */
 export function patchMethod<
   Class extends Constructor<any>,
@@ -67,6 +68,7 @@ export default patchMethod
  * @param klass The class to hook into.
  * @param methodName The name of the method on the class to hook into.
  * @param fn The hook to execute.
+ * @param fallback A fallback function to be called in case the original super method does not exist.
  */
 export function beforeMethod<
   Class extends Constructor<any>,
@@ -109,6 +111,7 @@ export function beforeMethod<
  * @param klass The class to hook into.
  * @param methodName The name of the method on the class to hook into.
  * @param fn The hook to execute.
+ * @param fallback A fallback function to be called in case the original super method does not exist.
  */
 export function afterMethod<
   Class extends Constructor<any>,
