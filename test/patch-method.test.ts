@@ -1,6 +1,10 @@
-import patchMethod, { beforeMethod, afterMethod } from '../src/patch-method'
+import defaultExport, { patchMethod, beforeMethod, afterMethod } from '../src/patch-method'
 
 describe('patchMethod', () => {
+  it('default export is equal to named `patchMethod` export', () => {
+    expect(defaultExport).toStrictEqual(patchMethod)
+  })
+
   it('works', () => {
     class Foo {
       bar(value: string) {

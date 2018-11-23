@@ -20,7 +20,7 @@ import { Constructor, PropertiesOfType } from './type-helpers'
  * @param methodName The name of the method on the class to hook into.
  * @param fn The hook to execute.
  */
-export default function patchMethod<
+export function patchMethod<
   Class extends Constructor<any>,
   Instance extends InstanceType<Class>,
   K extends PropertiesOfType<Instance, Function>,
@@ -46,6 +46,8 @@ export default function patchMethod<
 
   return klass
 }
+
+export default patchMethod
 
 /**
  * Executes the hook before the super method is executed.
