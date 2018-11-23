@@ -97,8 +97,7 @@ describe('patchMethod', () => {
 
   it('accepts a fallback method', () => {
     class Foo {
-      // @ts-ignore
-      bar: (value: string) => string
+      bar!: (value: string) => string
     }
 
     patchMethod(
