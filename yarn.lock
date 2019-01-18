@@ -6352,9 +6352,9 @@ rollup-plugin-sourcemaps@^0.4.2:
     source-map-resolve "^0.5.0"
 
 rollup-plugin-typescript2@^0.19.0:
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.19.0.tgz#4b360f96d6932b0cf13f8e25fe1351387c530122"
-  integrity sha512-1U6UUfk1c0RwUhTvxDaEpNiAe3Wmz2es4hVXDN3FDJ1VVN2an9QG7sPL2/ZoLrFkLvZ1SJBi0rRtkmVmZrNFZA==
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-typescript2/-/rollup-plugin-typescript2-0.19.1.tgz#cf2b7db289976c8d4eb3cc8613cc8db01506e43b"
+  integrity sha512-cosD7Cvl7Z0koFeR92pe3+6IibzAm4rtn4ABNzGWPfBQY/B97MFDznNPnc8bKHDYkve+WkhmjT0eWn7xf9oGvA==
   dependencies:
     fs-extra "7.0.1"
     resolve "1.8.1"
