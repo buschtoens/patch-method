@@ -8,6 +8,7 @@ describe('patchMethod', () => {
   it('works', () => {
     class Foo {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Foo)
         return value
       }
     }
@@ -26,6 +27,7 @@ describe('patchMethod', () => {
   it('works with derived classes', () => {
     class Base {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Base)
         return value
       }
     }
@@ -46,6 +48,7 @@ describe('patchMethod', () => {
   it('works on base classes of derived classes', () => {
     class Base {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Base)
         return value
       }
     }
@@ -66,12 +69,14 @@ describe('patchMethod', () => {
   it('works with derived classes that override', () => {
     class Base {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Base)
         return `base -> ${value}`
       }
     }
 
     class Derived extends Base {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Derived)
         return `derived -> ${super.bar(value)}`
       }
     }
@@ -125,6 +130,7 @@ describe('beforeMethod', () => {
   it('works', () => {
     class Foo {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Foo)
         return value
       }
     }
@@ -144,6 +150,7 @@ describe('afterMethod', () => {
   it('works', () => {
     class Foo {
       bar(value: string) {
+        expect(this).toBeInstanceOf(Foo)
         return value
       }
     }

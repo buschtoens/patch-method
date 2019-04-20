@@ -86,7 +86,7 @@ export function beforeMethod<
     methodName,
     function(superMethod, ...args) {
       fn.call(this, ...args)
-      return superMethod(...args)
+      return superMethod.apply(this, args)
     },
     fallback
   )
@@ -132,7 +132,7 @@ export function afterMethod<
     klass,
     methodName,
     function(superMethod, ...args) {
-      const returnValue = superMethod(...args)
+      const returnValue = superMethod.apply(this, args)
       fn.call(this, returnValue, ...args)
       return returnValue
     },
