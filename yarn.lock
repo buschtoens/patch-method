@@ -8148,9 +8148,9 @@ typedoc-default-themes@0.12.0:
   integrity sha512-0hHBxwmfxE0rkIslOiO39fJyYwaScQEhUIxcpqx3uS1BL3zhFW5oQfUaPx2cv2XLL/GXhYFxhdFLoVmNptbxEQ==
 
 typedoc@^0.20.0:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.2.tgz#0ec79c8ddf7167ad79881fa47d5b35365b6620df"
-  integrity sha512-edJOcp9T4ObjZleYWSWHAgaA1J4VzKd8PnnWWSN4UtB9owg45Xmsc642Hi6zDrPufyE7Z8JqB5IoYtd0wIjAng==
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.20.3.tgz#d499e6b38acd35bcd6b66051c2b099d1a73d31ad"
+  integrity sha512-DfN6Ym7pUqtjC8Sa6cqV3Lv7rTNXTA1sd4LrtyjE1qhX09c9R0rD9wBuqv+FAHmiLifB9BjGHQXBtIk56pGz+g==
   dependencies:
     colors "^1.4.0"
     fs-extra "^9.0.1"
