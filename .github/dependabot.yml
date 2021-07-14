@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@commitlint/config-conventional"
+    versions:
+    - 12.1.0
+  - dependency-name: rollup
+    versions:
+    - 2.38.1
+  - dependency-name: husky
+    versions:
+    - 5.0.8
